@@ -2,9 +2,8 @@
 ## Gestion des assurance  : GCAVNV
 #### G.C.A.V.N.V. (Gestion de Contracts d'Assurance Vie et Non Vie)
 
-
-A brief description of what this project does and who it's for
-
+## Demo
+![demos_png](public/README/assurance.png)
 
 ## 🛠 Skills
 Symfony, Bootstrap, Sass, JQuery, 
@@ -12,13 +11,13 @@ Symfony, Bootstrap, Sass, JQuery,
 
 ## Installation required
 
-This project nedd to user
+This project need to user
 
 ```bash
-  Symfony
-  composer
-  npm 
-  yarn
+  Symfony 7.*
+  composer 2.*
+  nodejs 20.17.0
+  yarn 1.22.22
 ```
     
 ## Run Locally
@@ -42,7 +41,18 @@ Install dependencies
   yarn install
   yarn dev or yarn watch
 ```
-
+Configure DataBase
+```bash
+  configure .env 
+```
+```bash
+  symfony console doctrine:database:create OR
+  php bin/console doctrine:database:create
+```
+```bash
+  symfony console doctrine:schema:update --force OR
+  php bin/console doctrine:schema:update --force
+```
 Start the server
 
 ```bash
