@@ -1,0 +1,36 @@
+{% extends "user/base-login.html.twig" %}
+
+{% block form %}
+	<div class="w-100">
+		<h3 class="mb-4 p-2 text-center">Se connecter</h3>
+	</div>
+	{% if error %}
+		<div class="error text-bg-danger d-flex justify-content-center align-item-center w-100">
+			<div class="m-2 p-2">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		</div>
+	{% endif %}
+	<form action="{{ path('user_login') }}" method="POST" class="signin-form">
+		<div class="form-group mb-3">
+			<label class="label" for="name">Email</label>
+			{# <input type="text" class="form-control my-2 p-3" id="username" name="_username" value="{{ last_user_name }}" required> #}
+			<input type="text" class="form-control my-2 p-3" id="username" name="_username" value="najoro@gmail.com" required>
+		</div>
+		<div class="form-group mb-3">
+			<label class="label" for="password">Mot de passe</label>
+			{# <input type="password" class="form-control my-2 p-3" id="password" name="_password" required> #}
+			<input type="password" class="form-control my-2 p-3" id="password" name="_password" value="123456" required>
+		</div>
+		<input type="hidden" name="_target_path" value="{{ path('client_index') }}">
+		<div class="form-group">
+			<button type="submit" class="form-control btn btn-primary submit px-3">
+				Se connecter
+			</button>
+		</div>
+		<div class="form-group text-end d-md-flex">
+			<div class="w-100 text-md-right">
+				<a href="#">Mot de passe Oublier</a>
+			</div>
+		</div>
+	</form>
+{% endblock %}
+

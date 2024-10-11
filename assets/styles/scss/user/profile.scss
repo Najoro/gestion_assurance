@@ -1,0 +1,16 @@
+.profile_page{
+    background: #74867946;
+    .logOut{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 1rem;
+        border-radius: 12rem;
+        opacity: 0.6;
+        a{
+            font-size: 2rem;
+            text-decoration: none;
+        }
+    }
+}

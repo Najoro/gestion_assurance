@@ -1,0 +1,32 @@
+body{
+    background: lightgray !important;
+}
+.breadcrumb{
+    ul{
+        list-style: none;
+        display: flex;
+        li{
+            margin-right: 20px;
+            font-size: 1rem;
+            color: black;
+            a{
+                text-decoration: none !important;
+                color: grey;
+            }
+            &:first-child {
+                position: relative;
+                &::after{
+                    content: " > ";
+                    position: absolute;
+                    top:  0;
+                    right: -15px;
+                    color: black;
+                    font-weight: bold;
+                }   
+            }
+            &:last-child{
+                font-weight: 500;
+            }
+        }
+    }
+}

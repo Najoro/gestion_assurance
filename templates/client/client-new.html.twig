@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Client
+{% endblock %}
+
+{% block body_class %}
+	{{ parent() }}
+	client-page
+{% endblock %}
+
+{% block main %}
+	<div class="client-space container my-4">
+		<div class="breadcrumb">
+			<ul>
+				<li class="breadcrumb-title">
+					<a href="{{ path('client_index') }}" class="">Liste de tous les clients</a>
+				</li>
+				<li class="breadcrumb-title">
+					<span class="">Ajout nouveau Client</span>
+				</li>
+			</ul>
+		</div>
+		<div class="d-flex justify-content-between align-items-center flex-wrap">
+			<h1 class="mb-3">Ajout nouveau Client</h1>
+		</div>
+		<div class="form">
+			{{ form_start(form, {attr: {class : "form-control p-4"}}) }}
+			<div class="row">
+				<div class="col-md-4">{{ form_row(form.firstName) }}</div>
+				<div class="col-md-4">{{ form_row(form.lastName) }}</div>
+				<div class="col-md-4">{{ form_row(form.birthday) }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">{{ form_row(form.email) }}</div>
+				<div class="col-md-6">{{ form_row(form.Adress) }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">{{ form_row(form.sex) }}</div>
+				<div class="col-md-6">{{ form_row(form.type) }}</div>
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+
+	</div>
+{% endblock %}
+

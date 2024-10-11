@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Client
+{% endblock %}
+
+{% block body_class %}
+	{{ parent() }}
+	client-page
+{% endblock %}
+
+{% block main %}
+	<div class="client-space container my-4">
+		<div class="d-flex justify-content-between align-items-center flex-wrap">
+			<h1 class="mb-3">Liste de tous les clients</h1>
+			<div class="">
+				<a href="{{ path('client_new') }}" class="btn btn-primary mb-3">
+					<i class="fa-solid fa-plus mx-2"></i>
+					Nouveau Client
+				</a>
+			</div>
+		</div>
+		<div class="">
+			<div class="card-white-shadow">
+				<div class="card-client col-md-4 bg-white">
+					<div class="client-info">
+						<ul>
+							<li>
+								<div class="icone"></div>
+								RAKOTO NANDRASANS
+							</li>
+							<li>
+								<div class="icone"></div>
+								rak@gmail.com
+							</li>
+							<li>
+								<div class="icone"></div>
+								67ha sud
+							</li>
+							<li>
+								<div class="icone"></div>
+								032 32 332 32
+							</li>
+						</ul>
+					</div>
+					<div class="client-action">
+						<div class="dropdown dropdown-client btn-drop">
+							<button class="btn btn-default dropdown-toggle bt-actions" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								<span class="icon--more"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right dropdown-text" aria-labelledby="dropdownMenuButton1" style="">
+								<li>
+									<a href="" data-url="/medicament/edit/1" class="btn py-0 dropdown-item edit-medicament">Modifier<i class="fa-solid fa-pen-to-square ms-1"></i>
+									</a>
+								</li>
+								<li>
+									<a class="btn py-0 btn-delete-medicine dropdown-item" href="/medicament/delete/1">Supprimer<i class="fa-solid fa-trash ms-1"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

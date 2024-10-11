@@ -1,0 +1,21 @@
+{% extends "user/base-login.html.twig" %}
+
+{% block form %}
+	<div class="d-flex">
+		<div class="w-100">
+			<h3 class="mb-4 p-2 text-center">Incription</h3>
+		</div>
+	</div>
+	{{form_start(form)}}
+	<div class="row">
+		<div class="col-md-6">{{form_row(form.lastName)}}</div>
+		<div class="col-md-6">{{form_row(form.firstName)}}</div>
+	</div>
+	<div class="row">
+		<div class="col-12">{{form_row(form.email)}}</div>
+	</div>
+	<div class="row"></div>
+	<div class="col-12">{{form_row(form.password)}}</div>
+</div>
+{{form_end(form)}}{% endblock %}
+

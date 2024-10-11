@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block body_class %}
+    {{ parent() }}
+    profile_page
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('entry_user') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('entry_user') }}
+{% endblock %}
+
+{% block main %}
+    <div class="logOut text-bg-success border-success-subtle">
+        <a class="text-white" href="{{ path('user_logout') }}">Deconnecter</a>
+    </div>
+{% endblock %}
