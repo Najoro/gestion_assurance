@@ -18,8 +18,9 @@
 			{{ encore_entry_script_tags('entry_bootstrap') }}
 			{{encore_entry_script_tags('entry_client')}}
 		{% endblock %}
-		
+
 	</head>
+	{% include 'partial/flash-message.html.twig' %}
 	<body class='{% block body_class %}{% endblock %}'>
 		<header class="header-bar bg-success">
 			<nav class="header-navbar navbar navbar-expand-lg navbar-dark" aria-label="Eighth navbar example">
@@ -33,13 +34,13 @@
 				<div class="collapse navbar-collapse mx-5" id="navbars">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item fs-5 fw-medium">
-							<a class="nav-link {{ app.current_route == "client_" ? 'active' : '' }}" href="{{path('client_index')}}">CLients</a>
+							<a class="nav-link {{ app.current_route starts with "client_" ? 'active' : '' }}" href="{{path('client_index')}}">CLients</a>
 						</li>
 						<li class="nav-item fs-5 fw-medium">
-							<a class="nav-link {{ app.current_route == "contract_index" ? 'active' : '' }}" href="{{path('contract_index')}}">Contracts</a>
+							<a class="nav-link {{ app.current_route starts with "contract_" ? 'active' : '' }}" href="{{path('contract_index')}}">Contracts</a>
 						</li>
 						<li class="nav-item fs-5 fw-medium">
-							<a class="nav-link {{ app.current_route == "sinistre_index" ? 'active' : '' }}" href="{{path('sinistre_index')}}">Sinistres</a>
+							<a class="nav-link {{ app.current_route starts with "sinistre_" ? 'active' : '' }}" href="{{path('sinistre_index')}}">Sinistres</a>
 						</li>
 						<li class="nav-item fs-5 fw-medium">
 							<a class="nav-link {{ app.current_route == "user_profile" ? 'active' : '' }}" href="{{path('user_profile')}}">Profile</a>

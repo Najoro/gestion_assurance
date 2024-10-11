@@ -6,6 +6,7 @@ use App\Entity\Clients;
 use App\Form\ClientFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -66,4 +67,63 @@ class ClientController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/client/edit/{id}', name: 'client_edit')]
+    public function ClientEdit(Clients $client): Response
+    {
+        $form = $this->createForm(ClientFormType::class, $client, [
+            'action' => $this->generateUrl("client_update", ['id' => $client->getId()]),
+        ]);
+        
+        return $this->render('client/client-edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
+    #[Route('/client/edit/{id}/update', name: 'client_update')]
+    public function ClientUpdate(Clients $client, Request $request): Response
+    {
+        $form = $this->createForm(ClientFormType::class, $client, [
+            'action' => $this->generateUrl("client_update", ['id' => $client->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $this->em->persist($client);
+            $this->em->flush();
+
+            $this->addFlash(
+               'success',
+               'Une Nouvelle Client est initier'
+            );
+            return $this->redirectToRoute('client_index');
+        }
+
+        return $this->render('client/client-edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
+    #[Route('/client/delete/{id}', name: 'client_delete')]
+    public function ClientDelete(Clients $client,Request $request): Response
+    {
+        $status = false;
+        $fullName = $request->get('fullName');
+        try{
+            $status = true;
+            $this->em->remove($client);
+            $this->em->flush();
+            $this->addFlash(
+                'success',
+                "$fullName est Bien supprimer"
+             );
+        }catch(\Exception $e){
+            $status = false;
+        }
+        
+        return new JsonResponse([
+         'status' => $status,
+        ]);
+    }
+
 }
