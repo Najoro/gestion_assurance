@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Clients;
+use App\Entity\Contract;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Clients>
+ * @extends ServiceEntityRepository<Contract>
  */
-class ClientsRepository extends ServiceEntityRepository
+class ContractRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Clients::class);
+        parent::__construct($registry, Contract::class);
     }
-    
+
     //    /**
-    //     * @return Clients[] Returns an array of Clients objects
+    //     * @return Contract[] Returns an array of Contract objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ClientsRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Clients
+    //    public function findOneBySomeField($value): ?Contract
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')

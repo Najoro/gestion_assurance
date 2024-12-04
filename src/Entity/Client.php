@@ -2,16 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientsRepository;
-use DateTimeImmutable;
+use App\Repository\ClientRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ClientsRepository::class)]
-class Clients
+#[ORM\Entity(repositoryClass: ClientRepository::class)]
+class Client
 {
+    CONST TYPE_CLIENT_UNIQUE = 1;
+    CONST TYPE_CLIENT_GROUP = 2;
+
+
+    CONST LIST_TYPE_CLIENT = [
+        self::TYPE_CLIENT_UNIQUE => "Unique",
+        self::TYPE_CLIENT_GROUP => "Groupe",
+    ];
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,17 +36,17 @@ class Clients
     #[ORM\Column(length: 255)]
     private ?string $Adress = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $birthday = null;
+    #[ORM\Column]
+    private ?\DateTime $birthday = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    private ?string $typeClient = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTime $updatedAt = null;
 
 
     /**
@@ -60,12 +70,19 @@ class Clients
     #[ORM\OneToMany(targetEntity: ContractType::class, mappedBy: 'client')]
     private Collection $contractTypes;
 
+    /**
+     * @var Collection<int, Contract>
+     */
+    #[ORM\ManyToMany(targetEntity: Contract::class, inversedBy: 'clients')]
+    private Collection $contracts;
+
     public function __construct()
     {
         $this->sinistres = new ArrayCollection();
         $this->contractTypes = new ArrayCollection();
-        $this->setCreatedAt(new DateTimeImmutable());
-        $this->setupdatedAt(new DateTimeImmutable());
+        $this->setCreatedAt(new DateTime());
+        $this->setupdatedAt(new DateTime());
+        $this->contracts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,48 +126,48 @@ class Clients
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getBirthday(): ?\DateTime
     {
         return $this->birthday;
     }
 
-    public function setBirthday(?\DateTimeInterface $birthday): static
+    public function setBirthday(?\DateTime $birthday): static
     {
         $this->birthday = $birthday;
 
         return $this;
     }
 
-    public function getType(): ?string
+    public function getTypeClient(): ?string
     {
-        return $this->type;
+        return $this->typeClient;
     }
 
-    public function setType(string $type): static
+    public function setTypeClient(string $type): static
     {
-        $this->type = $type;
+        $this->typeClient = $type;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -255,5 +272,29 @@ class Clients
 
     public function getFullName() {
         return $this->firstName.' '. $this->lastName;;
+    }
+
+    /**
+     * @return Collection<int, Contract>
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): static
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts->add($contract);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): static
+    {
+        $this->contracts->removeElement($contract);
+
+        return $this;
     }
 }

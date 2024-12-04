@@ -2,12 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Clients;
+use App\Entity\Client;
 use App\Entity\ContractType;
 use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,19 +45,29 @@ class ClientFormType extends AbstractType
                 "label" => "Adresse",
                 "required" => true,
             ])
-            ->add('birthday', null, [
+            ->add('birthday', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('phoneNumber' , TextType::class, [
                 'label' => 'Numero de telephone',
                 'required' => true,
             ])
-            ->add('type', ChoiceType::class ,  [
+            ->add('typeClient', ChoiceType::class ,  [
                 'label' => "type de Client",
-                'choices' => [
-                    'Unique' => 0,
-                    'Groupe' => 1,
+                'choices' => array_flip(Client::LIST_TYPE_CLIENT),
+            ])
+            ->add('isAddContract', CheckboxType::class, [
+                'mapped' => false,
+                'label' => 'Voulez vous signez une contrat ?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'check-contrat'
                 ]
+            ])
+            ->add('contrat', ContractFormType::class, [
+                'mapped' => false,
+                'label' => "Creer un nouveau Contrat",
+                'required' => false,
             ])
             ->add('save', SubmitType::class, [
                 "label" => "Valider"
@@ -66,7 +78,7 @@ class ClientFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Clients::class,
+            'data_class' => Client::class,
         ]);
     }
 }

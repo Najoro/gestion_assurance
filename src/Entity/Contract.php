@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ContractsRepository;
+use App\Repository\ContractRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ContractsRepository::class)]
-class Contracts
+#[ORM\Entity(repositoryClass: ContractRepository::class)]
+class Contract
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,16 +24,16 @@ class Contracts
     private ?float $amountInsured = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTime $updatedAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $DateStart = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $dateStart = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateEnd = null;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $dateEnd = null;
 
     #[ORM\OneToOne(mappedBy: 'contract', cascade: ['persist', 'remove'])]
     private ?ContractType $contractType = null;
@@ -43,10 +44,18 @@ class Contracts
     #[ORM\OneToMany(targetEntity: Sinistre::class, mappedBy: 'contract')]
     private Collection $sinistres;
 
+    /**
+     * @var Collection<int, Client>
+     */
+    #[ORM\ManyToMany(targetEntity: Client::class, mappedBy: 'contracts')]
+    private Collection $clients;
+
     public function __construct()
     {
         $this->sinistres = new ArrayCollection();
-    }
+        $this->clients = new ArrayCollection();
+        $this->setCreatedAt(new DateTime());
+        $this->setupdatedAt(new DateTime());    }
 
     public function getId(): ?int
     {
@@ -77,48 +86,48 @@ class Contracts
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDateStart(): ?\DateTimeInterface
+    public function getDateStart(): ?DateTime
     {
-        return $this->DateStart;
+        return $this->dateStart;
     }
 
-    public function setDateStart(\DateTimeInterface $DateStart): static
+    public function setDateStart(\DateTime $dateStart): static
     {
-        $this->DateStart = $DateStart;
+        $this->dateStart = $dateStart;
 
         return $this;
     }
 
-    public function getDateEnd(): ?string
+    public function getDateEnd(): ?DateTime
     {
         return $this->dateEnd;
     }
 
-    public function setDateEnd(string $dateEnd): static
+    public function setDateEnd(DateTime $dateEnd): static
     {
         $this->dateEnd = $dateEnd;
 
@@ -172,6 +181,33 @@ class Contracts
             if ($sinistre->getContract() === $this) {
                 $sinistre->setContract(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Client>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->addContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            $client->removeContract($this);
         }
 
         return $this;

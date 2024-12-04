@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 $(document).ready(function () {
   if ($("body").hasClass("client-page")) {
     actionClient.delete();
+    actionClient.checked();
   }
 });
 
@@ -59,4 +60,17 @@ var actionClient = {
       });
     });
   },
+
+  checked : function() {
+    $('body').on('click', '.check-contrat', function() {
+      const $this = $(this);
+      const $contratWrapper = $('.form-create-contract');
+      if($this.prop('checked')){
+        $contratWrapper.removeClass('d-none');
+      }else{
+        $contratWrapper.addClass('d-none');
+      }
+
+    })
+  }
 };

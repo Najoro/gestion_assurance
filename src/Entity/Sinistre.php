@@ -26,10 +26,10 @@ class Sinistre
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'sinistres')]
-    private ?Clients $client = null;
+    private ?Client $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'sinistres')]
-    private ?Contracts $contract = null;
+    private ?Contract $contract = null;
 
     public function getId(): ?int
     {
@@ -84,24 +84,24 @@ class Sinistre
         return $this;
     }
 
-    public function getClient(): ?Clients
+    public function getClient(): ?Client
     {
         return $this->client;
     }
 
-    public function setClient(?Clients $client): static
+    public function setClient(?Client $client): static
     {
         $this->client = $client;
 
         return $this;
     }
 
-    public function getContract(): ?Contracts
+    public function getContract(): ?Contract
     {
         return $this->contract;
     }
 
-    public function setContract(?Contracts $contract): static
+    public function setContract(?Contract $contract): static
     {
         $this->contract = $contract;
 

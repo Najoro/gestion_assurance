@@ -7,87 +7,97 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContractTypeRepository::class)]
 class ContractType
-{
+{ 
+    CONST TYPE_LIFE = 1;
+    CONST TYPE_NO_LIFE = 2;
+
+    CONST LIST_TYPE_CONTRAT = [
+        self::TYPE_LIFE => "vie",
+        self::TYPE_NO_LIFE => "non Vie",
+    ];
+
+    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    private ?string $typeContract = null;
 
 
     #[ORM\OneToOne(inversedBy: 'contractType', cascade: ['persist', 'remove'])]
-    private ?Contracts $contract = null;
+    private ?Contract $contract = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTime $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'contractTypes')]
-    private ?Clients $client = null;
+    private ?Client $client = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getTypeContract(): ?string
     {
-        return $this->type;
+        return $this->typeContract;
     }
 
-    public function setType(string $type): static
+    public function setTypeContract(string $type): static
     {
-        $this->type = $type;
+        $this->typeContract = $type;
 
         return $this;
     }
 
-    public function getContract(): ?Contracts
+    public function getContract(): ?Contract
     {
         return $this->contract;
     }
 
-    public function setContract(?Contracts $contract): static
+    public function setContract(?Contract $contract): static
     {
         $this->contract = $contract;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTime $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getClient(): ?Clients
+    public function getClient(): ?Client
     {
         return $this->client;
     }
 
-    public function setClient(?Clients $client): static
+    public function setClient(?Client $client): static
     {
         $this->client = $client;
 
